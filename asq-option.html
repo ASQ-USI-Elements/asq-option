@@ -60,8 +60,9 @@
         },
        
       }
-      ASQ.mixin2(p, ASQ.ElementTypeMixin);
+
       ASQ.mixin2(p, ASQ.RoleMixin);
+      Polymer.mixin(p, ASQ.ElementTypeMixin);
       Polymer('asq-option', p);
     })()
     
