@@ -1,5 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../asq-element-conf/asq-element-conf.html">
+<link rel="import" href="../asq-element-common/asq-element-common.html">
 
 <polymer-element name="asq-option" attributes="correctanswer">
   <template>
@@ -40,7 +40,7 @@
       var p = {
         isCorrectAnswer: false,
 
-        type_: "asq-option",
+       
         
         created: function  () {
           if ( this.attributes.hasOwnProperty("correctanswer") ) {
@@ -54,13 +54,14 @@
 
         getSubmission: function() {
           if ( this.role === this.Roles.VIEWER ) {
+            // console.log(this, this.role, this.shadowRoot.querySelector("#option").checked);
             return this.$.option.checked;
           }
         },
        
       }
-      ASQ.mixin(p, ASQ.ElementType);
-      ASQ.mixin(p, ASQ.Role);
+      ASQ.mixin2(p, ASQ.ElementTypeMixin);
+      ASQ.mixin2(p, ASQ.RoleMixin);
       Polymer('asq-option', p);
     })()
     
