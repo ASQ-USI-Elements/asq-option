@@ -1,24 +1,33 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../asq-element-common/asq-element-common.html">
 
-<polymer-element name="asq-option" attributes="correctanswer">
+<polymer-element name="asq-option">
   <template>
     <style>
     </style>
 
     <!-- template for viewer -->
     <template if="{{role==Roles.VIEWER}}">
-      <div class="asq-option">
+      <div>
         <li>
-          <input id="option" type="checkbox" name="option">
-          <label for="option"><content></content></label>  
+        <core-label>
+          <template  if="{{type=='radio'}}">
+            <paper-radio-button id="option" name="{{name}}" ></paper-radio-button>
+          </template>
+          <template  if="{{type=='checkbox'}}">
+            <paper-checkbox id="option" name="{{name}}" ></paper-checkbox>
+          </template> 
+          <content></content>
+        </core-label>
         </li>
       </div>
     </template>
 
     <!-- template for presenter -->
     <template  if="{{role==Roles.PRESENTER}}">
-      <div class="asq-option">
+      <div>
         <li>
           <content></content> 
         </li>
@@ -26,7 +35,7 @@
     </template> 
 
     <template  if="{{role==Roles.TA}}">
-      <div class="asq-option">
+      <div>
         <li>
           <content></content> 
         </li>
@@ -38,16 +47,44 @@
     (function() {
 
       var p = {
-        isCorrectAnswer: false,
-
-       
         
+
+        publish: {
+          name: '',
+          correct: "false",
+          type: "checkbox",
+          checked: {value: false, reflect: true},
+          disabled: {value: false, reflect: true}
+        },
+
+        eventDelegates: {
+          tap: 'tap'
+        },
+        
+        tap: function() {
+          if (this.disabled) {
+            return;
+          }
+          this.checked = ! this.checked;
+          this.fire('change');
+        },
+
+        checkedChanged: function() {
+          tagName = (this.type == "checkbox")
+           ? 'paper-checkbox'
+           : 'paper-radio-button';
+          this.shadowRoot.querySelector(tagName).checked = this.checked;
+          this.fire('core-change');
+        },
+
+        isCorrect: false,
+
         created: function  () {
-          if ( this.attributes.hasOwnProperty("correctanswer") ) {
-            this.isCorrectAnswer = this.attributes["correctanswer"];
-            // this.removeAttribute("correctanswer");
+          if ( this.attributes.hasOwnProperty("correct") ) {
+            this.isCorrect = this.attributes["correct"];
+            // this.removeAttribute("correct");
           } else {
-            this.isCorrectAnswer = false;
+            this.isCorrect = false;
           }
 
         },
