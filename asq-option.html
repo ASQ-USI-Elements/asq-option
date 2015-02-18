@@ -4,6 +4,18 @@
 <link rel="import" href="../paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../asq-base/asq-base.html">
 
+
+<!--
+`asq-option` is used as options in multi-choice questions.
+
+##### Example
+    <asq-option>Answer 1</asq-option>
+
+@element asq-option
+@group ASQ Elements
+@blurb Element acting as options in multichoice questions.
+@homepage http://github.com/ASQ_USI/asq-option
+-->
 <polymer-element name="asq-option">
   <template>
     <style>
@@ -11,6 +23,7 @@
         display: block;
         width: 100%;
       }
+
     </style>
 
     <!-- template for viewer -->
@@ -53,13 +66,30 @@
     (function() {
 
       var p = {
-        
-
         publish: {
-          name: '',
-          correct: "false",
+          /**
+           * The type of option, either "checkbox" or "radiobox". This value will be set by
+           * an `asq-multi-choice` instance automatically. 
+           * @attribute type
+           * @type string
+           * @default 'checkbox'
+           */
           type: "checkbox",
+
+          /**
+           * This attribute denotes the state of a option, checked or not.
+           * @attribute checked
+           * @type boolean
+           * @default false
+           */
           checked: {value: false, reflect: true},
+
+          /**
+           * This attribute denotes the a option is disabled or endabled.
+           * @attribute disabled
+           * @type boolean
+           * @default false
+           */
           disabled: {value: false, reflect: true}
         },
 
@@ -67,16 +97,32 @@
           tap: 'tap'
         },
         
+
+        /**
+         * The `change` event is fired whenever the option is enabled and tapped.
+         *
+         * @event change
+         * @param {Object} detail
+         *   @param {boolean} detail.checked The new state of the option.
+         */
         tap: function() {
           if (this.disabled) {
             return;
           }
           this.checked = ! this.checked;
-          this.fire('change');
+          this.fire('change', {checked: this.checked});
         },
 
+
+        /**
+         * The `checkedChanged` event is fired ..... TODO
+         *
+         * @event checked-change
+         * @param {Object} null
+         *   
+         */
         checkedChanged: function() {
-          tagName = (this.type == "checkbox")
+          var tagName = (this.type == "checkbox")
            ? 'paper-checkbox'
            : 'paper-radio-button';
 
@@ -85,21 +131,20 @@
             el.checked = this.checked;
            }
           
-          this.fire('core-change');
+          this.fire('checked-change');
         },
 
-        isCorrect: false,
 
         created: function  () {
-          if ( this.attributes.hasOwnProperty("correct") ) {
-            this.isCorrect = this.attributes["correct"];
-            // this.removeAttribute("correct");
-          } else {
-            this.isCorrect = false;
-          }
 
         },
 
+        /**
+         * The `submit` method will submit the answer to a wrapped 'asq-exercise' instance.
+         * Only useful when the `role` is `viewer`.
+         * 
+         * @method submit
+         */
         submit: function() {
           if ( this.role === this.roles.VIEWER ) {
             // console.log(this, this.role, this.shadowRoot.querySelector("#option").checked);
