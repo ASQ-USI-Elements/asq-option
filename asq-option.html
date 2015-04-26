@@ -6,15 +6,17 @@
 
 
 <!--
-`asq-option` is used as options in multi-choice questions.
+`asq-option` represents a single option of asq-multi-choice question.
 
-##### Example
-    <asq-option>Answer 1</asq-option>
+##### Examples
+    <asq-option type="checkbox">A checkbox option</asq-option>
+
+    <asq-option type="radio" disabled>A radio option</asq-option>
 
 @element asq-option
 @group ASQ Elements
 @blurb Element acting as options in multichoice questions.
-@homepage http://github.com/ASQ_USI/asq-option
+@homepage http://github.com/ASQ-USI/asq-option
 -->
 <polymer-element name="asq-option">
   <template>
@@ -32,10 +34,10 @@
         <li>
         <core-label>
           <template  if="{{type=='radio'}}">
-            <paper-radio-button id="option" name="{{name}}" ></paper-radio-button>
+            <paper-radio-button id="option" disabled="{{disabled}}"></paper-radio-button>
           </template>
           <template  if="{{type=='checkbox'}}">
-            <paper-checkbox id="option" name="{{name}}" ></paper-checkbox>
+            <paper-checkbox id="option" disabled="{{disabled}}"></paper-checkbox>
           </template> 
           <content></content>
         </core-label>
@@ -77,7 +79,8 @@
           type: "checkbox",
 
           /**
-           * This attribute denotes the state of a option, checked or not.
+           * Gets or sets the state, `true` is checked and `false` is unchecked.
+           * 
            * @attribute checked
            * @type boolean
            * @default false
@@ -85,28 +88,42 @@
           checked: {value: false, reflect: true},
 
           /**
-           * This attribute denotes the a option is disabled or endabled.
+           * Disable or endable this option.
+           * 
            * @attribute disabled
            * @type boolean
            * @default false
            */
           disabled: {value: false, reflect: true},
 
-          correct: false
         },
 
         eventDelegates: {
           tap: 'tap'
         },
-        
 
         /**
-         * The `change` event is fired whenever the option is tapped.
+         * The `change` event is fired whenever the option is tapped by an user.
          *
          * @event change
-         * @param {Object} detail
-         *   @param {boolean} detail.checked The new state of the option.
+         * 
+         *        detail: {
+         *           checked: this.checked
+         *        }
+         *   
          */
+
+        /**
+         * The `checked-change` event is fired when the state of *checked* is changed.
+         *
+         * @event checked-change
+         * 
+         *        detail: {
+         *           checked: this.checked
+         *        }
+         *   
+         */
+        
         tap: function() {
           if (this.disabled) {
             return;
@@ -115,14 +132,6 @@
           this.fire('change', {checked: this.checked});
         },
 
-
-        /**
-         * The `checkedChanged` event is fired ..... TODO
-         *
-         * @event checked-change
-         * @param {Object} null
-         *   
-         */
         checkedChanged: function() {
           var tagName = (this.type == "checkbox")
            ? 'paper-checkbox'
@@ -133,12 +142,7 @@
             el.checked = this.checked;
            }
           
-          this.fire('checked-change');
-        },
-
-
-        created: function  () {
-
+          this.fire('checked-change', {checked: this.checked});
         },
 
         /**
@@ -146,11 +150,20 @@
          * Only useful when the `role` is `viewer`.
          * 
          * @method submit
+         * @return object 
+         *
+         *         // return value
+         *         {
+         *             uid: this.uid, 
+         *             value: this.$.option.checked
+         *         }
          */
         submit: function() {
           if ( this.role === this.roles.VIEWER ) {
-            // console.log(this, this.role, this.shadowRoot.querySelector("#option").checked);
-            return {uid: this.uid, value: this.$.option.checked};
+            return  { 
+                      uid: this.uid, 
+                      value: this.$.option.checked
+                    }
           }
         },
        
