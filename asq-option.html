@@ -21,26 +21,24 @@
 <polymer-element name="asq-option">
   <template>
     <style>
-      #progressBar{
-        display: block;
-        width: 100%;
+      :host {
+        margin: 0 0.25em 0 0;
       }
-
     </style>
 
     <!-- template for viewer -->
     <template if="{{role==roles.VIEWER}}">
       <div>
         <li>
-        <core-label>
-          <template  if="{{type=='radio'}}">
-            <paper-radio-button id="option" disabled="{{disabled}}"></paper-radio-button>
-          </template>
-          <template  if="{{type=='checkbox'}}">
-            <paper-checkbox id="option" disabled="{{disabled}}"></paper-checkbox>
-          </template> 
-          <content></content>
-        </core-label>
+          <core-label>
+            <template  if="{{type=='radio'}}">
+              <paper-radio-button id="radio" disabled="{{disabled}}"></paper-radio-button>
+            </template>
+            <template  if="{{type=='checkbox'}}">
+              <paper-checkbox id="checkbox" disabled="{{disabled}}"></paper-checkbox>
+            </template> 
+            <content></content>
+          </core-label>
         </li>
       </div>
     </template>
@@ -76,16 +74,7 @@
            * @type string
            * @default 'checkbox'
            */
-          type: "checkbox",
-
-          /**
-           * Gets or sets the state, `true` is checked and `false` is unchecked.
-           * 
-           * @attribute checked
-           * @type boolean
-           * @default false
-           */
-          checked: {value: false, reflect: true},
+          type: "radio",
 
           /**
            * Disable or endable this option.
@@ -96,10 +85,56 @@
            */
           disabled: {value: false, reflect: true},
 
+          toggles: false,
+
+          /**
+           * Only used to **set** the **initial** state.
+           * 
+           * @attribute selected
+           * @type {Object}
+           */
+          selected: {value: false, reflect: true},
+
+          /**
+           * Only used to **get** the state. True if the option is checked; 
+           * otherwise false.
+           *
+           * @attribute checked
+           * @type {Object}
+           */
+          checked: {value: false, reflect: true},
+
         },
+
+
+        typeChanged: function() {
+          this.toggles = this.type == 'radio' ? false : true;
+        },
+
 
         eventDelegates: {
           tap: 'tap'
+        },
+
+        // selectedChanged: function() {
+        //   if ( ! this.domGotReady ) return
+        //   if ( this.selected && !this.checked ) this.tap(); 
+        // },
+
+        // Necessary to call those two methods manually,
+        // because the condition templates above.
+        // If the condition changed, then refresh all the
+        // state of *new UI element*. Otherwise there would
+        // be inconsistency
+        domReady: function() {
+          this.checkedChanged();
+          if (this.role == this.roles.VIEWER) {
+            this.getOption().toggles = this.toggles;
+          }
+           
+
+          // the same reason: it relies on the UI
+          if ( this.selected && !this.checked ) this.tap();
         },
 
         /**
@@ -124,25 +159,42 @@
          *   
          */
 
+
         tap: function() {
           if (this.disabled) {
             return;
           }
-          this.checked = ! this.checked;
-          this.fire('change', {checked: this.checked});
+          var old = this.checked;
+          this.toggle();
+          if (this.checked !== old) {
+            this.fire('asq-change', {checked: this.checked});
+          }
+        },
+
+        /**
+         * Return the *option*, either a paper-checkbox or paper-radio
+         * 
+         * @method getOption
+         * @return object 
+         */
+        getOption: function() {
+          var tagName = (this.type == 'checkbox') 
+            ? 'paper-checkbox'
+            : 'paper-radio-button';
+
+           return this.shadowRoot.querySelector(tagName);
+        },
+
+        toggle: function() {
+          this.checked = !this.checked;
         },
 
         checkedChanged: function() {
-          var tagName = (this.type == "checkbox")
-           ? 'paper-checkbox'
-           : 'paper-radio-button';
-
-           var el = this.shadowRoot.querySelector(tagName);
-           if( el ){
-            el.checked = this.checked;
-           }
-          
-          this.fire('checked-change', {checked: this.checked});
+          var option = this.getOption();
+          if ( option ) {
+            option.checked = this.checked;
+            this.fire('asq-checked-change', {checked: this.checked});
+          }
         },
 
         /**
@@ -155,14 +207,14 @@
          *         // return value
          *         {
          *             uid: this.uid, 
-         *             value: this.$.option.checked
+         *             value: this.checked
          *         }
          */
         submit: function() {
           if ( this.role === this.roles.VIEWER ) {
             return  { 
                       uid: this.uid, 
-                      value: this.$.option.checked
+                      value: this.checked
                     }
           }
         },
