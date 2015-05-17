@@ -44,16 +44,16 @@
     </template>
 
     <!-- template for presenter -->
-    <template  if="{{role==roles.PRESENTER}}">
+    <template if="{{role==roles.PRESENTER}}">
       <div>
-        <li>
+        <li vertical layout>
           <content></content> 
           <paper-progress id="progressBar"></paper-progress>
         </li>
       </div>
     </template> 
 
-    <template  if="{{role==roles.TA}}">
+    <template if="{{role==roles.TA}}">
       <div>
         <li>
           <content></content> 
