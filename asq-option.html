@@ -18,7 +18,7 @@
 @blurb Element acting as options in multichoice questions.
 @homepage http://github.com/ASQ-USI/asq-option
 -->
-<polymer-element name="asq-option">
+<polymer-element name="asq-option" attributes="type disabled selected">
   <template>
     <style>
       :host {
@@ -32,10 +32,10 @@
         <li>
           <core-label>
             <template  if="{{type=='radio'}}">
-              <paper-radio-button id="radio" disabled="{{disabled}}"></paper-radio-button>
+              <paper-radio-button id="option" disabled="{{disabled}}" checked="{{checked}}"></paper-radio-button>
             </template>
             <template  if="{{type=='checkbox'}}">
-              <paper-checkbox id="checkbox" disabled="{{disabled}}"></paper-checkbox>
+              <paper-checkbox id="option" disabled="{{disabled}}" checked="{{checked}}"></paper-checkbox>
             </template> 
             <content></content>
           </core-label>
@@ -85,26 +85,26 @@
            */
           disabled: {value: false, reflect: true},
 
-          toggles: false,
-
+          // TODO: improve this. Maybe do not use core-selector in asq-multi-choice.
           /**
-           * Only used to **set** the **initial** state.
-           * 
+           * Only used to set and get the state.
+           * The reason to have a *selected* attributes is that
+           * we need two events: asq-change and asq-checked-change and 
+           * asq-change needs to be actived before asq-checked-change whenever
+           * an option needs to be changed.
+           *
            * @attribute selected
            * @type {Object}
            */
           selected: {value: false, reflect: true},
 
-          /**
-           * Only used to **get** the state. True if the option is checked; 
-           * otherwise false.
-           *
-           * @attribute checked
-           * @type {Object}
-           */
+          // Only used to **get** the state. True if the option is checked; 
+          // otherwise false.
           checked: {value: false, reflect: true},
 
         },
+
+
 
 
         typeChanged: function() {
@@ -116,29 +116,21 @@
           tap: 'tap'
         },
 
-        // selectedChanged: function() {
-        //   if ( ! this.domGotReady ) return
-        //   if ( this.selected && !this.checked ) this.tap(); 
-        // },
+        selectedChanged: function() {
+          if ( this.selected !== this.checked ) this.tap(); 
+        },
 
-        // Necessary to call those two methods manually,
+        // Necessary to call those methods manually,
         // because the condition templates above.
         // If the condition changed, then refresh all the
         // state of *new UI element*. Otherwise there would
-        // be inconsistency
+        // be inconsistent
         domReady: function() {
-          this.checkedChanged();
-          if (this.role == this.roles.VIEWER) {
-            this.getOption().toggles = this.toggles;
-          }
-           
-
-          // the same reason: it relies on the UI
-          if ( this.selected && !this.checked ) this.tap();
+          this.selectedChanged();
         },
 
         /**
-         * The `change` event is fired whenever the option is tapped by an user.
+         * The `change` event is fired whenever the option is tapped.
          *
          * @event change
          * 
@@ -162,13 +154,23 @@
 
         tap: function() {
           if (this.disabled) {
+            if ( this.selected !== this.checked ) this.selected = this.checked;
             return;
           }
           var old = this.checked;
-          this.toggle();
+          this.checked = !this.checked;
           if (this.checked !== old) {
             this.fire('asq-change', {checked: this.checked});
           }
+        },
+
+        checkedChanged: function() {
+          var option = this.getOption();
+          if ( option ) {
+            this.fire('asq-checked-change', {checked: this.checked});
+          }
+          // make sure selected and checked are consistent
+          if ( this.selected !== this.checked ) this.selected = this.checked; 
         },
 
         /**
@@ -178,23 +180,8 @@
          * @return object 
          */
         getOption: function() {
-          var tagName = (this.type == 'checkbox') 
-            ? 'paper-checkbox'
-            : 'paper-radio-button';
-
-           return this.shadowRoot.querySelector(tagName);
-        },
-
-        toggle: function() {
-          this.checked = !this.checked;
-        },
-
-        checkedChanged: function() {
-          var option = this.getOption();
-          if ( option ) {
-            option.checked = this.checked;
-            this.fire('asq-checked-change', {checked: this.checked});
-          }
+          var query = "#option";
+          return this.shadowRoot.querySelector(query);
         },
 
         /**
@@ -212,10 +199,7 @@
          */
         submit: function() {
           if ( this.role === this.roles.VIEWER ) {
-            return  { 
-                      uid: this.uid, 
-                      value: this.checked
-                    }
+            return  { uid: this.uid, value: this.checked }
           }
         },
        
