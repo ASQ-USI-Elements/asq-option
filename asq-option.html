@@ -18,11 +18,17 @@
 @blurb Element acting as options in multichoice questions.
 @homepage http://github.com/ASQ-USI/asq-option
 -->
+
 <polymer-element name="asq-option" attributes="type disabled selected">
   <template>
     <style>
       :host {
         margin: 0 0.25em 0 0;
+      }
+      #progressNum{
+        position: relative;
+        top: -20px;
+        padding: 0 5px;
       }
     </style>
 
@@ -48,7 +54,10 @@
       <div>
         <li vertical layout>
           <content></content> 
-          <paper-progress id="progressBar"></paper-progress>
+          <div horizontal layout>
+            <paper-progress id="progressBar" flex></paper-progress>
+            <div id="progressNum">0</div>
+          </div>
         </li>
       </div>
     </template> 
