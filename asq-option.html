@@ -6,20 +6,20 @@
 
 
 <!--
-`asq-option` represents a single option of asq-multi-choice question.
+`asq-option-q` represents a single option of asq-multi-choice question.
 
 ##### Examples
-    <asq-option type="checkbox">A checkbox option</asq-option>
+    <asq-option-q type="checkbox">A checkbox option</asq-option-q>
 
-    <asq-option type="radio" disabled>A radio option</asq-option>
+    <asq-option-q type="radio" disabled>A radio option</asq-option-q>
 
-@element asq-option
+@element asq-option-q
 @group ASQ Elements
 @blurb Element acting as options in multichoice questions.
-@homepage http://github.com/ASQ-USI/asq-option
+@homepage http://github.com/ASQ-USI/asq-option-q
 -->
 
-<polymer-element name="asq-option" attributes="type disabled selected">
+<polymer-element name="asq-option-q" attributes="type disabled selected">
   <template>
     <style>
       :host {
@@ -215,7 +215,7 @@
       }
 
       ASQ.asqify(p);
-      Polymer('asq-option', p);
+      Polymer('asq-option-q', p);
     })()
     
   </script>
