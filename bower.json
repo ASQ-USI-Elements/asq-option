@@ -13,10 +13,11 @@
   "license": "MIT",
   "dependencies": {
     "polymer": "Polymer/polymer#^0.5.1",
-    "asq-base": "ASQ-USI/asq-base#master",
     "paper-checkbox": "Polymer/paper-checkbox#^0.5.2",
     "paper-progress": "Polymer/paper-progress#^0.5.2",
-    "paper-radio-button": "Polymer/paper-radio-button#^0.5.2"
+    "paper-radio-button": "Polymer/paper-radio-button#^0.5.2",
+    "asq-base": "ASQ-USI-Elements/asq-base#master"
+    
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^2.0.0-rc1"
