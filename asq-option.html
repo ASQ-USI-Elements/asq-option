@@ -1,222 +1,150 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../paper-progress/paper-progress.html">
-<link rel="import" href="../paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../asq-base/asq-base.html">
+<link rel="import" href="../paper-ripple/paper-ripple.html">
+<link rel="import" href="../paper-styles/default-theme.html">
+<link rel="import" href="../paper-behaviors/paper-inky-focus-behavior.html">
+<link rel="import" href="../iron-checked-element-behavior/iron-checked-element-behavior.html">
 
 
 <!--
-`asq-option` represents a single option of asq-multi-choice question.
+`asq-option` represents a single option of `asq-multi-choice-q` question. It adapts from 
+PolymerElements/paper-checkbox and PolymerElements/paper-radio-button.
 
 ##### Examples
-    <asq-option type="checkbox">A checkbox option</asq-option>
 
-    <asq-option type="radio" disabled>A radio option</asq-option>
+    <asq-option >A checkbox option</asq-option>
+    <asq-option disabled>A radio option</asq-option>
 
 @element asq-option
+@demo demo/index.html
 @group ASQ Elements
 @blurb Element acting as options in multichoice questions.
 @homepage http://github.com/ASQ-USI-Elements/asq-option
 -->
+<dom-module id="asq-option">
 
-<polymer-element name="asq-option" attributes="type disabled selected">
+  <link rel="import" type="css" href="asq-option.css">
+
   <template>
-    <style>
-      :host {
-        margin: 0 0.25em 0 0;
-      }
-      #progressNum{
-        position: relative;
-        top: -20px;
-        padding: 0 5px;
-      }
-    </style>
 
-    <!-- template for viewer -->
-    <template if="{{role==roles.VIEWER}}">
-      <div>
-        <li>
-          <core-label>
-            <template  if="{{type=='radio'}}">
-              <paper-radio-button id="option" disabled="{{disabled}}" checked="{{checked}}"></paper-radio-button>
-            </template>
-            <template  if="{{type=='checkbox'}}">
-              <paper-checkbox id="option" disabled="{{disabled}}" checked="{{checked}}"></paper-checkbox>
-            </template> 
-            <content></content>
-          </core-label>
-        </li>
+    <template is="dom-if" if="{{!multi}}">
+      <div id="radioContainer">
+        <div id="offRadio"></div>
+        <div id="onRadio"></div>
+        <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple>
       </div>
     </template>
 
-    <!-- template for presenter -->
-    <template if="{{role==roles.PRESENTER}}">
-      <div>
-        <li vertical layout>
-          <content></content> 
-          <div horizontal layout>
-            <paper-progress id="progressBar" flex></paper-progress>
-            <div id="progressNum">0</div>
-          </div>
-        </li>
+    <template is="dom-if" if="{{multi}}">
+      <div id="checkboxContainer">
+        <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple>
+        <div id="checkbox" class$="[[_computeCheckboxClass(checked, invalid)]]">
+          <div id="checkmark" class$="[[_computeCheckmarkClass(checked)]]"></div>
+        </div>
       </div>
-    </template> 
 
-    <template if="{{role==roles.TA}}">
-      <div>
-        <li>
-          <content></content> 
-        </li>
-      </div>
-    </template>    
+    </template>
+
+    <div id="label"><content></content></div>
 
   </template>
+
+    
+
+
   <script>
-    (function() {
+    Polymer({
+      is: 'asq-option',
 
-      var p = {
-        publish: {
-          /**
-           * The type of option, either "checkbox" or "radiobox". This value will be set by
-           * an `asq-multi-choice` instance automatically. 
-           * @attribute type
-           * @type string
-           * @default 'checkbox'
-           */
-          type: "radio",
+      behaviors: [
+        Polymer.PaperInkyFocusBehavior,
+        Polymer.IronCheckedElementBehavior,
+        ASQ.asqElementBehavior
+      ],
 
-          /**
-           * Disable or endable this option.
-           * 
-           * @attribute disabled
-           * @type boolean
-           * @default false
-           */
-          disabled: {value: false, reflect: true},
+      hostAttributes: {
+        'aria-checked': false,
+        tabindex: 0
+      },
 
-          // TODO: improve this. Maybe do not use core-selector in asq-multi-choice.
-          /**
-           * Only used to set and get the state.
-           * The reason to have a *selected* attributes is that
-           * we need two events: asq-change and asq-checked-change and 
-           * asq-change needs to be actived before asq-checked-change whenever
-           * an option needs to be changed.
-           *
-           * @attribute selected
-           * @type {Object}
-           */
-          selected: {value: false, reflect: true},
+      ready: function() {
+        this.multi = this.multi;
+      },
 
-          // Only used to **get** the state. True if the option is checked; 
-          // otherwise false.
-          checked: {value: false, reflect: true},
+      properties: {
 
+
+
+        multi: {
+          type: Boolean,
+          value: false,
+          notify: true,
+          reflectToAttribute: true
         },
-
-
-
-
-        typeChanged: function() {
-          this.toggles = this.type == 'radio' ? false : true;
-        },
-
-
-        eventDelegates: {
-          tap: 'tap'
-        },
-
-        selectedChanged: function() {
-          if ( this.selected !== this.checked ) this.tap(); 
-        },
-
-        // Necessary to call those methods manually,
-        // because the condition templates above.
-        // If the condition changed, then refresh all the
-        // state of *new UI element*. Otherwise there would
-        // be inconsistent
-        domReady: function() {
-          this.selectedChanged();
-        },
-
         /**
-         * The `change` event is fired whenever the option is tapped.
+         * Fired when the checked state changes due to user interaction.
          *
          * @event change
-         * 
-         *        detail: {
-         *           checked: this.checked
-         *        }
-         *   
          */
 
         /**
-         * The `checked-change` event is fired when the state of *checked* is changed.
+         * Fired when the checked state changes.
          *
-         * @event checked-change
-         * 
-         *        detail: {
-         *           checked: this.checked
-         *        }
-         *   
+         * @event iron-change
          */
 
+         ariaActiveAttribute: {
+           value: 'aria-checked'
+         }
+      },
 
-        tap: function() {
-          if (this.disabled) {
-            if ( this.selected !== this.checked ) this.selected = this.checked;
-            return;
-          }
-          var old = this.checked;
-          this.checked = !this.checked;
-          if (this.checked !== old) {
-            this.fire('asq-change', {checked: this.checked});
-          }
-        },
 
-        checkedChanged: function() {
-          var option = this.getOption();
-          if ( option ) {
-            this.fire('asq-checked-change', {checked: this.checked});
-          }
-          // make sure selected and checked are consistent
-          if ( this.selected !== this.checked ) this.selected = this.checked; 
-        },
+      attached: function() {
+        this._isReady = true;
 
-        /**
-         * Return the *option*, either a paper-checkbox or paper-radio
-         * 
-         * @method getOption
-         * @return object 
-         */
-        getOption: function() {
-          var query = "#option";
-          return this.shadowRoot.querySelector(query);
-        },
+        // Don't stomp over a user-set aria-label.
+        if (!this.getAttribute('aria-label')) {
+          this.updateAriaLabel();
+        }
+      },
 
-        /**
-         * The `submit` method will submit the answer to a wrapped 'asq-exercise' instance.
-         * Only enabled when the `role` is `viewer`.
-         * 
-         * @method submit
-         * @return object 
-         *
-         *         // return value
-         *         {
-         *             uid: this.uid, 
-         *             value: this.checked
-         *         }
-         */
-        submit: function() {
-          if ( this.role === this.roles.VIEWER ) {
-            return  { uid: this.uid, value: this.checked }
-          }
-        },
-       
+      /**
+       * Update the checkbox aria-label. This is a temporary workaround not
+       * being able to observe changes in <content>
+       * (see: https://github.com/Polymer/polymer/issues/1773)
+       *
+       * Call this if you manually change the contents of the checkbox
+       * and want the aria-label to match the new contents.
+       */
+      updateAriaLabel: function() {
+        this.setAttribute('aria-label', Polymer.dom(this).textContent.trim());
+      },
+
+      _buttonStateChanged: function() {
+        if (this.disabled) {
+          return;
+        }
+        if (this._isReady) {
+          this.checked = this.active;
+        }
+      },
+
+      _computeCheckboxClass: function(checked, invalid) {
+        var className = '';
+        if (checked) {
+          className += 'checked ';
+        }
+        if (invalid) {
+          className += 'invalid';
+        }
+        return className;
+      },
+
+      _computeCheckmarkClass: function(checked) {
+        return checked ? '' : 'hidden';
       }
 
-      ASQ.asqify(p);
-      Polymer('asq-option', p);
-    })()
-    
+    })
   </script>
-</polymer-element>
+
+</dom-module>

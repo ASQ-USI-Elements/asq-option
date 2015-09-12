@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="asq-elements" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  <title>asq-option | Demo</title>
+
+  <script src="../../webcomponentsjs/webcomponents.js"></script>
+
+  <link href="../asq-option.html" rel="import">
+
+  <style is="custom-style">
+    .horizontal-section {
+      min-width: 200px;
+    }
+
+    asq-option {
+      display: block;
+      margin-bottom: 1em;
+    }
+
+
+
+  </style>
+
+</head>
+<body>
+
+
+  <section>
+
+    <asq-option multi name="o1"  >A checkbox option</asq-option>
+    <asq-option multi name="o2" checked disabled>A disabled checkbox option</asq-option>
+    <asq-option name="o3" checked>A radio option</asq-option>
+    <asq-option name="o4" disabled>A diabled radio option</asq-option>
+
+
+  </section>
+
+  <script>
+
+    
+
+
+    window.onmessage = function(e){
+      if (typeof e.data.role == "string" && e.data.role.length > 0) {
+        var allAsqElements = document.querySelectorAll('html /deep/ *');
+        allAsqElements = Array.prototype.slice.call(allAsqElements).filter(function(el) {
+          return el.isASQElement;
+          // return isASQEl(el);
+        });
+
+        //set role for every asq-element in this page
+        allAsqElements.forEach(function(elem, index) {
+          elem.role = e.data.role;
+        });
+      }
+
+    };
+
+
+  </script>
+
+
+</body>
+</html>

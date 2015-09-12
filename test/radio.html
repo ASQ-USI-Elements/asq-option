@@ -15,22 +15,26 @@
 <body>
 
   <!-- You use the document as a place to set up your fixtures. -->
-  <asq-option type="radio" id="a1">This is a radio option</asq-option>
+  <asq-option id="m">This is a radio option</asq-option>
+  <asq-option id="m2" checked>This is a radio option</asq-option>
 
   <script>
-    var a1 = document.querySelector('#a1');
+    var m = document.querySelector('#m');
+    var m2 = document.querySelector('#m2');
     suite('<asq-option>', function() {
       test('test default values', function() {
-        assert.equal(a1.type, "radio");
-        assert.isFalse(a1.checked);
-        assert.isFalse(a1.disabled);
+        assert.isFalse(m.multi);
+        assert.isFalse(m.checked);
+        assert.isFalse(m.disabled);
+
+        assert.isTrue(m2.checked);
       });
 
       test('test default mixin values', function() {
-        assert.isTrue(a1.isASQElement);
-        assert.isFalse(a1.isASQQuestionTypeElement);
-        assert.equal(a1.uid, "");
-        assert.equal(a1.role, ASQ.RoleMixin.roles.VIEWER);
+        assert.isTrue(m.isASQElement);
+        assert.isFalse(m.isASQQuestionTypeElement);
+        assert.equal(m.uid, '');
+        assert.equal(m.role, 'viewer');
       });
 
       
