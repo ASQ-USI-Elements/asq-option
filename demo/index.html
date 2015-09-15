@@ -19,7 +19,51 @@
       margin-bottom: 1em;
     }
 
+    .horizontal-section-container {
+      @apply(--layout-horizontal);
+      @apply(--layout-around-justified);
+      @apply(--layout-wrap);
+    }
 
+    .vertical-section-container {
+      @apply(--layout-vertical);
+      @apply(--center-justified);
+    }
+
+    .horizontal-section {
+      background-color: white;
+      padding: 24px;
+      margin-right: 24px;
+      min-width: 200px;
+
+      @apply(--shadow-elevation-2dp);
+    }
+
+    .flex {
+      flex: auto;
+    }
+
+    .vertical-section {
+      background-color: white;
+      padding: 24px;
+      margin: 0 24px 24px 24px;
+
+      @apply(--shadow-elevation-2dp);
+    }
+
+    .centered {
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    code {
+      color: var(--google-grey-700);
+    }
+
+    .attr {
+      color: var(--paper-orange-700);
+    }
 
   </style>
 
@@ -27,22 +71,34 @@
 <body>
 
 
-  <section>
+  <div class="vertical-section-container">
 
-    <asq-option multi name="o1"  >A checkbox option</asq-option>
-    <asq-option multi name="o2" checked disabled>A disabled checkbox option</asq-option>
-    <asq-option name="o3" checked>A radio option</asq-option>
-    <asq-option name="o4" disabled>A diabled radio option</asq-option>
+    <div class="vertical-section">
+      <asq-option multi name="o1">A checkbox option for viewer</asq-option>
+      <asq-option multi name="o2" checked disabled>A disabled checkbox option</asq-option>
+    </div>
+
+    <div class="vertical-section">
+      <asq-option name="o3" checked>A radio option</asq-option>
+      <asq-option name="o4" disabled>A diabled radio option</asq-option>
+      
+    </div>
+    
+   <div class="vertical-section">
+    <asq-option multi name="o1" role="presenter">An option for presenter</asq-option>
+    <asq-option multi name="o2" role="presenter" progress-value="10" progress-max="15">Another option for presenter</asq-option>
+   </div>
 
 
-  </section>
+  </div>
 
   <script>
-
+    var x = document.querySelectorAll('asq-option')[0];
     
 
 
     window.onmessage = function(e){
+
       if (typeof e.data.role == "string" && e.data.role.length > 0) {
         var allAsqElements = document.querySelectorAll('html /deep/ *');
         allAsqElements = Array.prototype.slice.call(allAsqElements).filter(function(el) {
