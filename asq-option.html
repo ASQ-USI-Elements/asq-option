@@ -3,7 +3,9 @@
 <link rel="import" href="../paper-ripple/paper-ripple.html">
 <link rel="import" href="../paper-styles/default-theme.html">
 <link rel="import" href="../paper-behaviors/paper-inky-focus-behavior.html">
+<link rel="import" href="../paper-progress/paper-progress.html">
 <link rel="import" href="../iron-checked-element-behavior/iron-checked-element-behavior.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 
 
 <!--
@@ -25,27 +27,50 @@ PolymerElements/paper-checkbox and PolymerElements/paper-radio-button.
 
   <link rel="import" type="css" href="asq-option.css">
 
+  <style>
+    .layout-horizontal {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+    }
+
+    paper-progress {
+      width: 100%;
+      margin-right: 10px;
+    }
+  </style>
+
   <template>
 
-    <template is="dom-if" if="{{!multi}}">
-      <div id="radioContainer">
-        <div id="offRadio"></div>
-        <div id="onRadio"></div>
-        <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple>
-      </div>
-    </template>
-
-    <template is="dom-if" if="{{multi}}">
-      <div id="checkboxContainer">
-        <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple>
-        <div id="checkbox" class$="[[_computeCheckboxClass(checked, invalid)]]">
-          <div id="checkmark" class$="[[_computeCheckmarkClass(checked)]]"></div>
+    <template is="dom-if" if="{{hasRole(role, roles.VIEWER)}}" restamp>
+      <template is="dom-if" if="{{!multi}}">
+        <div id="radioContainer">
+          <div id="offRadio"></div>
+          <div id="onRadio"></div>
+          <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple>
         </div>
-      </div>
+      </template>
 
+      <template is="dom-if" if="{{multi}}">
+        <div id="checkboxContainer">
+          <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple>
+          <div id="checkbox" class$="[[_computeCheckboxClass(checked, invalid)]]">
+            <div id="checkmark" class$="[[_computeCheckmarkClass(checked)]]"></div>
+          </div>
+        </div>
+      </template>
+
+      <div id="label"><content></content></div>
     </template>
 
-    <div id="label"><content></content></div>
+    
+
+    <template is="dom-if" if="{{hasRole(role, roles.PRESENTER)}}" restamp>
+      <div id="label"><content></content></div>
+      <div class="layout-horizontal">
+        <paper-progress id="progress" value="[[progressValue]]" max="[[progressMax]]"></paper-progress>
+        <div>[[progressValue]]</div>
+      </div>
+    </template>
 
   </template>
 
@@ -95,7 +120,21 @@ PolymerElements/paper-checkbox and PolymerElements/paper-radio-button.
 
          ariaActiveAttribute: {
            value: 'aria-checked'
-         }
+         },
+
+         progressValue: {
+          type: Number,
+          value: 0,
+          notify: true,
+          reflectToAttribute: true
+        },
+
+         progressMax: {
+          type: Number,
+          value: 100,
+          notify: true,
+          reflectToAttribute: true
+        }
       },
 
 
@@ -142,7 +181,12 @@ PolymerElements/paper-checkbox and PolymerElements/paper-radio-button.
 
       _computeCheckmarkClass: function(checked) {
         return checked ? '' : 'hidden';
+      },
+
+      hasRole: function (role, candidate) {
+        return role == candidate;
       }
+      
 
     })
   </script>
