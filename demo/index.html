@@ -65,6 +65,15 @@
       color: var(--paper-orange-700);
     }
 
+
+    asq-option.blue {
+      --asq-option-progress-active-color: var(--paper-light-blue-500);
+    }
+
+    asq-option.red {
+      --asq-option-progress-active-color: var(--paper-red-500);
+    }
+
   </style>
 
 </head>
@@ -85,8 +94,8 @@
     </div>
     
    <div class="vertical-section">
-    <asq-option multi name="o1" role="presenter">An option for presenter</asq-option>
-    <asq-option multi name="o2" role="presenter" progress-value="10" progress-max="15">Another option for presenter</asq-option>
+    <asq-option class="blue" role="presenter" progress-value="5" progress-max="15">An option for presenter</asq-option>
+    <asq-option multi class="red" role="presenter" progress-value="10" progress-max="15">Another option for presenter</asq-option>
    </div>
 
 
