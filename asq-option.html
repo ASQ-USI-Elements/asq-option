@@ -12,10 +12,45 @@
 `asq-option` represents a single option of `asq-multi-choice-q` question. It adapts from 
 PolymerElements/paper-checkbox and PolymerElements/paper-radio-button.
 
+In viewer's view, `asq-option` can switch between radio button and checkbox according 
+to the value of `multi`.
+
+In presenter's view, it will show a progress bar instead.
+
 ##### Examples
 
-    <asq-option >A checkbox option</asq-option>
-    <asq-option disabled>A radio option</asq-option>
+    <asq-option multi>A checkbox option</asq-option>
+    <asq-option disabled>A disabled radio option</asq-option>
+
+
+### Styling progress bar:
+
+To change the active progress bar color:
+
+    asq-option {
+       --asq-option-progress-active-color: #e91e63;
+    }
+
+
+To change the progress bar background color:
+
+    asq-option {
+      --asq-option-progress-container-color: #64ffda;
+    }
+
+
+The followings are available for styling (adopt from PolymerElements/paper-progress):
+
+Custom property                             | Description                                 | Default
+--------------------------------------------|---------------------------------------------|----------
+--asq-option-progress-container-color            | Mixin applied to container                  | --google-grey-300
+--asq-option-progress-transition-duration        | Duration of the transition                  | 0.008s
+--asq-option-progress-transition-timing-function | The timing function for the transition      | ease
+--asq-option-progress-transition-delay           | delay for the transition                    | 0s
+--asq-option-progress-active-color               | The color of the active bar                 | --google-green-500
+--asq-option-progress-disabled-active-color      | The color of the active bar if disabled     | --google-grey-500
+--asq-option-progress-height                     | The height of the progress bar              | 4px
+
 
 @element asq-option
 @demo demo/index.html
@@ -108,13 +143,24 @@ PolymerElements/paper-checkbox and PolymerElements/paper-radio-button.
       },
 
       ready: function() {
-        this.multi = this.multi;
+        this.listen(this, 'checked-changed', '_onCheckedChanged');
+      },
+
+      _onCheckedChanged: function(event) {
+        event.preventDefault();
+        this.fire('asq-option-change', {
+          is: this.is,
+          which: this,
+          checked: this.checked
+        });
       },
 
       properties: {
 
 
-
+        /**
+         * Decide the mode, single or multi.
+         */
         multi: {
           type: Boolean,
           value: false,
@@ -130,13 +176,17 @@ PolymerElements/paper-checkbox and PolymerElements/paper-radio-button.
         /**
          * Fired when the checked state changes.
          *
-         * @event iron-change
+         * @event asq-option-change
          */
 
          ariaActiveAttribute: {
            value: 'aria-checked'
          },
 
+         /**
+          * To set the value of progress bar in presenter view.
+          * @type {Object}
+          */
          progressValue: {
           type: Number,
           value: 0,
@@ -144,13 +194,18 @@ PolymerElements/paper-checkbox and PolymerElements/paper-radio-button.
           reflectToAttribute: true
         },
 
-         progressMax: {
+        /**
+         * To set the max value of progress bar in presenter view.
+         * @type {Object}
+         */
+        progressMax: {
           type: Number,
           value: 100,
           notify: true,
           reflectToAttribute: true
         }
       },
+
 
 
       attached: function() {
@@ -163,6 +218,8 @@ PolymerElements/paper-checkbox and PolymerElements/paper-radio-button.
       },
 
       /**
+       * Taken from PolymerElements/paper-checkbox.
+       * 
        * Update the checkbox aria-label. This is a temporary workaround not
        * being able to observe changes in <content>
        * (see: https://github.com/Polymer/polymer/issues/1773)
