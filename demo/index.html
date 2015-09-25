@@ -74,6 +74,18 @@
       --asq-option-progress-active-color: var(--paper-red-500);
     }
 
+    asq-option {
+      --asq-option-unchecked-ink-color: #FF1744;
+      --asq-option-checked-ink-color: #2E7D32;
+      --asq-option-checked-color: #FF1744;
+      --asq-option-unchecked-color: green;
+      --asq-option-unchecked-background-color: white;
+      --asq-option-checkmark-color: white;
+    }
+
+    asq-option[name="o1"] {
+      --asq-option-checked-color: black;
+    }
   </style>
 
 </head>
@@ -83,7 +95,8 @@
   <div class="vertical-section-container">
 
     <div class="vertical-section">
-      <asq-option multi name="o1">A checkbox option for viewer</asq-option>
+      <asq-option multi name="o0">A checkbox option for viewer</asq-option>
+      <asq-option multi name="o1" checked>Another checkbox option.</asq-option>
       <asq-option multi name="o2" checked disabled>A disabled checkbox option</asq-option>
     </div>
 
@@ -102,7 +115,7 @@
   </div>
 
   <script>
-    var x = document.querySelectorAll('asq-option')[0];
+    var x = document.querySelectorAll('asq-option')[1];
     
 
 
