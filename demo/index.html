@@ -10,61 +10,10 @@
   <link href="../asq-option.html" rel="import">
 
   <style is="custom-style">
-    .horizontal-section {
-      min-width: 200px;
-    }
-
     asq-option {
       display: block;
       margin-bottom: 1em;
     }
-
-    .horizontal-section-container {
-      @apply(--layout-horizontal);
-      @apply(--layout-around-justified);
-      @apply(--layout-wrap);
-    }
-
-    .vertical-section-container {
-      @apply(--layout-vertical);
-      @apply(--center-justified);
-    }
-
-    .horizontal-section {
-      background-color: white;
-      padding: 24px;
-      margin-right: 24px;
-      min-width: 200px;
-
-      @apply(--shadow-elevation-2dp);
-    }
-
-    .flex {
-      flex: auto;
-    }
-
-    .vertical-section {
-      background-color: white;
-      padding: 24px;
-      margin: 0 24px 24px 24px;
-
-      @apply(--shadow-elevation-2dp);
-    }
-
-    .centered {
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    code {
-      color: var(--google-grey-700);
-    }
-
-    .attr {
-      color: var(--paper-orange-700);
-    }
-
 
     asq-option.blue {
       --asq-option-progress-active-color: var(--paper-light-blue-500);
@@ -89,30 +38,18 @@
   </style>
 
 </head>
-<body>
+<body unresolved>
 
 
-  <div class="vertical-section-container">
+  <asq-option multi name="o0">A checkbox option for viewer</asq-option>
+  <asq-option multi name="o1" checked>Another checkbox option.</asq-option>
+  <asq-option multi name="o2" checked disabled>A disabled checkbox option</asq-option>
 
-    <div class="vertical-section">
-      <asq-option multi name="o0">A checkbox option for viewer</asq-option>
-      <asq-option multi name="o1" checked>Another checkbox option.</asq-option>
-      <asq-option multi name="o2" checked disabled>A disabled checkbox option</asq-option>
-    </div>
+  <asq-option name="o3" checked>A radio option</asq-option>
+  <asq-option name="o4" disabled>A diabled radio option</asq-option>
 
-    <div class="vertical-section">
-      <asq-option name="o3" checked>A radio option</asq-option>
-      <asq-option name="o4" disabled>A diabled radio option</asq-option>
-      
-    </div>
-    
-   <div class="vertical-section">
-    <asq-option class="blue" role="presenter" progress-value="5" progress-max="15">An option for presenter</asq-option>
-    <asq-option multi class="red" role="presenter" progress-value="10" progress-max="15">Another option for presenter</asq-option>
-   </div>
-
-
-  </div>
+  <asq-option class="blue" role="presenter" progress-value="5" progress-max="15">An option for presenter</asq-option>
+  <asq-option multi class="red" role="presenter" progress-value="10" progress-max="15">Another option for presenter</asq-option>
 
   <script>
     var x = document.querySelectorAll('asq-option')[1];
