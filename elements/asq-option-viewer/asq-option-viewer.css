@@ -36,13 +36,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   left: -16px;
   width: 48px;
   height: 48px;
-  color: var(--asq-option-unchecked-ink-color, --primary-text-color);
+  color: var(--asq-option-viewer-unchecked-ink-color, --primary-text-color);
   opacity: 0.6;
   pointer-events: none;
 }
 
 :host #ink[checked] {
-  color: var(--asq-option-checked-ink-color, --default-primary-color);
+  color: var(--asq-option-viewer-checked-ink-color, --default-primary-color);
 }
 
 :host #offRadio {
@@ -54,8 +54,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   height: 12px;
   border-radius: 50%;
   border: solid 2px;
-  background-color: var(--asq-option-unchecked-background-color, transparent);
-  border-color: var(--asq-option-unchecked-color, --primary-text-color);
+  background-color: var(--asq-option-viewer-unchecked-background-color, transparent);
+  border-color: var(--asq-option-viewer-unchecked-color, --primary-text-color);
   transition: border-color 0.28s;
 }
 
@@ -67,7 +67,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(--asq-option-checked-color, --default-primary-color);
+  background-color: var(--asq-option-viewer-checked-color, --default-primary-color);
   -webkit-transform: scale(0);
   transform: scale(0);
   transition: -webkit-transform ease 0.28s;
@@ -75,7 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 :host([checked]) #offRadio {
-  border-color: var(--asq-option-checked-color, --default-primary-color);
+  border-color: var(--asq-option-viewer-checked-color, --default-primary-color);
 }
 
 :host([checked]) #onRadio {
@@ -90,7 +90,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   margin-left: 10px;
   white-space: normal;
   pointer-events: none;
-  color: var(--asq-option-label-color, --primary-text-color);
+  color: var(--asq-option-viewer-label-color, --primary-text-color);
 }
 
 #label[hidden] {
@@ -103,12 +103,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 :host([disabled]) #offRadio {
-  border-color: var(--asq-option-disabled-color, --primary-text-color);
+  border-color: var(--asq-option-viewer-disabled-color, --primary-text-color);
   opacity: 0.5;
 }
 
 :host([disabled][checked]) #onRadio {
-  background-color: var(--asq-option-disabled-color, --primary-text-color);
+  background-color: var(--asq-option-viewer-disabled-color, --primary-text-color);
   opacity: 0.5;
 }
 
@@ -131,7 +131,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   vertical-align: middle;
-  background-color: var(--asq-option-unchecked-background-color, transparent);
+  background-color: var(--asq-option-viewer-unchecked-background-color, transparent);
 }
 
 
@@ -141,7 +141,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   box-sizing: border-box;
   height: 100%;
   border: solid 2px;
-  border-color: var(--asq-option-unchecked-color, --primary-text-color);
+  border-color: var(--asq-option-viewer-unchecked-color, --primary-text-color);
   border-radius: 2px;
   pointer-events: none;
   -webkit-transition: background-color 140ms, border-color 140ms;
@@ -185,8 +185,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 :host #checkbox.checked {
-  background-color: var(--asq-option-checked-color, --default-primary-color);
-  border-color: var(--asq-option-checked-color, --default-primary-color);
+  background-color: var(--asq-option-viewer-checked-color, --default-primary-color);
+  border-color: var(--asq-option-viewer-checked-color, --default-primary-color);
 }
 
 :host #checkmark {
@@ -202,7 +202,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   border-left: none;
   border-right-width: 2px;
   border-bottom-width: 2px;
-  border-color: var(--asq-option-checkmark-color, white);
+  border-color: var(--asq-option-viewer-checkmark-color, white);
 }
 
 
@@ -214,18 +214,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 :host([disabled]) #checkbox {
   opacity: 0.5;
-  border-color: var(--asq-option-disabled-color, --primary-text-color);
+  border-color: var(--asq-option-viewer-disabled-color, --primary-text-color);
 }
 
 :host([disabled][checked]) #checkbox {
-  background-color: var(--asq-option-disabled-color, --primary-text-color);
+  background-color: var(--asq-option-viewer-disabled-color, --primary-text-color);
   opacity: 0.5;
 }
 
 
 /* invalid state */
 #checkbox.invalid:not(.checked) {
-  border-color: var(--asq-option-error-color, --google-red-500);
+  border-color: var(--asq-option-viewer-error-color, --google-red-500);
 }
 
 

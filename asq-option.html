@@ -5,112 +5,20 @@
 <link rel="import" href="../paper-behaviors/paper-inky-focus-behavior.html">
 <link rel="import" href="../paper-progress/paper-progress.html">
 <link rel="import" href="../iron-checked-element-behavior/iron-checked-element-behavior.html">
-<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../paper-styles/color.html">
+
+
+
+<link rel="import" href="./elements/asq-option-viewer/asq-option-viewer.html">
+<link rel="import" href="./elements/asq-option-presenter/asq-option-presenter.html">
 
 <!--
-`asq-option` represents a single option of `asq-multi-choice-q` question. It adapts from 
-PolymerElements/paper-checkbox and PolymerElements/paper-radio-button.
+`asq-option` represents a single option of `asq-multi-choice-q` question. 
 
 In viewer's view, `asq-option` can switch between radio button and checkbox according 
 to the value of `multi`.
 
 In presenter's view, it will show a progress bar instead.
 
-
-
-##### Examples
-
-    <asq-option multi>A checkbox option</asq-option>
-    <asq-option disabled>A disabled radio option</asq-option>
-
-
-### Styling the checkbox or radio button in viewer's view:
-
-To change the color (as well as backgound color) when checked:
-
-    asq-option {
-      --asq-option-checked-color: #FF1744;
-    }
-
-To change the color and background color when unchecked:
-
-    asq-option {
-      --asq-option-unchecked-color: #2E7D32;
-      --asq-option-unchecked-background-color: white;
-    }
-
-To change the color of ink when checked or unchecked:
-
-    asq-option {
-      --asq-option-checked-ink-color: #2E7D32;
-    }
-
-    asq-option {
-      --asq-option-unchecked-ink-color: #FF1744;
-    }
-
-To change the color of checked mark of *checkbox* when checked:
-
-    asq-option {
-      --asq-option-checkmark-color: white;
-    }
-
-To change the color when disabled:
-
-    asq-option {
-      --asq-option-disabled-color: #757575;
-    }
-
-To change the color of label:
-
-    asq-option {
-      --asq-option-label-color: black;
-    }
-
-The followings are available for styling (viewer's view) 
-
-Custom property                             | Description                                          | Default
---------------------------------------------|------------------------------------------------------|----------
---asq-option-checked-color:                 | The color when checked                               | --default-primary-color
---asq-option-unchecked-color:               | The color when unchecked                             | --primary-text-color
---asq-option-unchecked-background-color:    | The background color when unchecked                  | transparent
---asq-option-checked-ink-color:             | The color of ink when checked                        | --default-primary-color  
---asq-option-unchecked-ink-color:           | The color of ink when unchecked:                     | --primary-text-color
---asq-option-checkmark-color:               | The color of checked mark of *checkbox* when checked | white
---asq-option-disabled-color:                | The color when disabled                              | --primary-text-color
---asq-option-label-color:                   | The color when disabled                              | --primary-text-color
-
-
-
-
-### Styling progress bar:
-
-To change the active progress bar color:
-
-    asq-option {
-       --asq-option-progress-active-color: #e91e63;
-    }
-
-
-To change the progress bar background color:
-
-    asq-option {
-      --asq-option-progress-container-color: #64ffda;
-    }
-
-
-The followings are available for styling (presenter's view) ( adapted from PolymerElements/paper-progress):
-
-Custom property                             | Description                                 | Default
---------------------------------------------|---------------------------------------------|----------
---asq-option-progress-container-color            | Mixin applied to container                  | --google-grey-300
---asq-option-progress-transition-duration        | Duration of the transition                  | 0.008s
---asq-option-progress-transition-timing-function | The timing function for the transition      | ease
---asq-option-progress-transition-delay           | delay for the transition                    | 0s
---asq-option-progress-active-color               | The color of the active bar                 | --google-green-500
---asq-option-progress-disabled-active-color      | The color of the active bar if disabled     | --google-grey-500
---asq-option-progress-height                     | The height of the progress bar              | 4px
 
 
 @element asq-option
@@ -121,71 +29,34 @@ Custom property                             | Description                       
 -->
 <dom-module id="asq-option">
 
-  <link rel="import" type="css" href="asq-option.css">
-
-  <style is="custom-style">
-    .layout-horizontal {
-      @apply(--layout-horizontal);
-      @apply(--layout-center);
-    }
-
-    paper-progress {
-      width: 100%;
-      margin-right: 10px;
-    }
-
-    paper-progress {
-      --paper-progress-container-color: var(--asq-option-progress-container-color, --google-grey-300);
-
-      --paper-progress-active-color: var(--asq-option-progress-active-color, --google-green-500);
-
-      --paper-progress-disabled-active-color: var(--asq-option-progress-disabled-active-color, --google-grey-500);
-
-
-      --paper-progress-height: var(--asq-option-progress-height, 4px);
-
-      --paper-progress-transition-duration: var(--asq-option-progress-transition-duration, 0.08s);
-
-      --paper-progress-transition-delay: var(--asq-option-progress-transition-delay, 0s);
-    }
-
-
-    /* radio button and checkbox styles */
-
-
-  </style>
 
   <template>
 
     <template is="dom-if" if="{{hasRole(role, roles.VIEWER)}}" restamp>
-      <template is="dom-if" if="{{!multi}}">
-        <div id="radioContainer">
-          <div id="offRadio"></div>
-          <div id="onRadio"></div>
-          <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple>
-        </div>
-      </template>
-
-      <template is="dom-if" if="{{multi}}">
-        <div id="checkboxContainer">
-          <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple>
-          <div id="checkbox" class$="[[_computeCheckboxClass(checked, invalid)]]">
-            <div id="checkmark" class$="[[_computeCheckmarkClass(checked)]]"></div>
-          </div>
-        </div>
-      </template>
-
-      <div id="label"><content></content></div>
+      <asq-option-viewer 
+        role="viewer" 
+        uid="[[uid]]" 
+        multi="[[multi]]" 
+        disabled="[[disabled]]"
+        name="[[name]]"
+        checked$="[[checked]]">
+        <content></content>
+      </asq-option-viewer>
     </template>
 
     
 
     <template is="dom-if" if="{{hasRole(role, roles.PRESENTER)}}" restamp>
-      <div id="label"><content></content></div>
-      <div class="layout-horizontal">
-        <paper-progress id="progress" value="[[progressValue]]" max="[[progressMax]]"></paper-progress>
-        <div>[[progressValue]]</div>
-      </div>
+      <asq-option-presenter 
+        role="presenter" 
+        uid="[[uid]]" 
+        multi="[[multi]]" 
+        disabled="[[disabled]]"
+        progress-value="[[progressValue]]" 
+        progress-max="[[progressMax]]" 
+        name="[[name]]">
+        <content></content>
+      </asq-option-presenter>
     </template>
 
   </template>
@@ -203,23 +74,7 @@ Custom property                             | Description                       
         ASQ.asqElementBehavior
       ],
 
-      hostAttributes: {
-        'aria-checked': false,
-        tabindex: 0
-      },
 
-      ready: function() {
-        this.listen(this, 'checked-changed', '_onCheckedChanged');
-      },
-
-      _onCheckedChanged: function(event) {
-        event.preventDefault();
-        this.fire('asq-option-change', {
-          is: this.is,
-          which: this,
-          checked: this.checked
-        });
-      },
 
       properties: {
 
@@ -233,25 +88,11 @@ Custom property                             | Description                       
           notify: true,
           reflectToAttribute: true
         },
-        /**
-         * Fired when the checked state changes due to user interaction.
-         *
-         * @event change
-         */
 
-        /**
-         * Fired when the checked state changes.
-         *
-         * @event asq-option-change
-         */
-
-         ariaActiveAttribute: {
-           value: 'aria-checked'
-         },
+        
 
          /**
           * To set the value of progress bar in presenter view.
-          * @type {Object}
           */
          progressValue: {
           type: Number,
@@ -262,7 +103,6 @@ Custom property                             | Description                       
 
         /**
          * To set the max value of progress bar in presenter view.
-         * @type {Object}
          */
         progressMax: {
           type: Number,
@@ -274,14 +114,14 @@ Custom property                             | Description                       
 
 
 
-      attached: function() {
-        this._isReady = true;
+      // attached: function() {
+      //   this._isReady = true;
 
-        // Don't stomp over a user-set aria-label.
-        if (!this.getAttribute('aria-label')) {
-          this.updateAriaLabel();
-        }
-      },
+      //   // Don't stomp over a user-set aria-label.
+      //   if (!this.getAttribute('aria-label')) {
+      //     this.updateAriaLabel();
+      //   }
+      // },
 
       /**
        * Taken from PolymerElements/paper-checkbox.
@@ -293,33 +133,33 @@ Custom property                             | Description                       
        * Call this if you manually change the contents of the checkbox
        * and want the aria-label to match the new contents.
        */
-      updateAriaLabel: function() {
-        this.setAttribute('aria-label', Polymer.dom(this).textContent.trim());
-      },
+      // updateAriaLabel: function() {
+      //   this.setAttribute('aria-label', Polymer.dom(this).textContent.trim());
+      // },
 
-      _buttonStateChanged: function() {
-        if (this.disabled) {
-          return;
-        }
-        if (this._isReady) {
-          this.checked = this.active;
-        }
-      },
+      // _buttonStateChanged: function() {
+      //   if (this.disabled) {
+      //     return;
+      //   }
+      //   if (this._isReady) {
+      //     this.checked = this.active;
+      //   }
+      // },
 
-      _computeCheckboxClass: function(checked, invalid) {
-        var className = '';
-        if (checked) {
-          className += 'checked ';
-        }
-        if (invalid) {
-          className += 'invalid';
-        }
-        return className;
-      },
+      // _computeCheckboxClass: function(checked, invalid) {
+      //   var className = '';
+      //   if (checked) {
+      //     className += 'checked ';
+      //   }
+      //   if (invalid) {
+      //     className += 'invalid';
+      //   }
+      //   return className;
+      // },
 
-      _computeCheckmarkClass: function(checked) {
-        return checked ? '' : 'hidden';
-      }
+      // _computeCheckmarkClass: function(checked) {
+      //   return checked ? '' : 'hidden';
+      // }
 
     })
   </script>
