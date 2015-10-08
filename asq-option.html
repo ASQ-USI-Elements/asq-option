@@ -54,7 +54,8 @@ In presenter's view, it will show a progress bar instead.
         disabled="[[disabled]]"
         progress-value="[[progressValue]]" 
         progress-max="[[progressMax]]" 
-        name="[[name]]">
+        name="[[name]]"
+        display-progress="[[displayProgress]]">
         <content></content>
       </asq-option-presenter>
     </template>
@@ -69,7 +70,7 @@ In presenter's view, it will show a progress bar instead.
       is: 'asq-option',
 
       behaviors: [
-        Polymer.PaperInkyFocusBehavior,
+        // Polymer.PaperInkyFocusBehavior,
         Polymer.IronCheckedElementBehavior,
         ASQ.asqElementBehavior
       ],
@@ -105,6 +106,16 @@ In presenter's view, it will show a progress bar instead.
           value: 100,
           notify: true,
           reflectToAttribute: true
+        },
+
+        /**
+        * Whether to display progress or not. Works only for `presenter` role.
+        * @type {Object}
+        */
+        displayProgress: {
+          type: Boolean,
+          value: false,
+          notify: true 
         }
       },
 

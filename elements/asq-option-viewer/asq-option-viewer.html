@@ -102,7 +102,7 @@ Custom property                             | Description                       
 
     <template is="dom-if" if="{{multi}}">
       <div id="checkboxContainer">
-        <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple>
+        <!-- <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple> -->
         <div id="checkbox" class$="[[_computeCheckboxClass(checked, invalid)]]">
           <div id="checkmark" class$="[[_computeCheckmarkClass(checked)]]"></div>
         </div>
@@ -121,7 +121,7 @@ Custom property                             | Description                       
       is: 'asq-option-viewer',
 
       behaviors: [
-        Polymer.PaperInkyFocusBehavior,
+        // Polymer.PaperInkyFocusBehavior,
         Polymer.IronCheckedElementBehavior,
         ASQ.asqElementBehavior
       ],

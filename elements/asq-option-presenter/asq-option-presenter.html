@@ -5,7 +5,7 @@
 <link rel="import" href="../../../paper-behaviors/paper-inky-focus-behavior.html">
 <link rel="import" href="../../../paper-progress/paper-progress.html">
 <link rel="import" href="../../../iron-checked-element-behavior/iron-checked-element-behavior.html">
-<link rel="import" href="../../../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="../../../paper-styles/color.html">
 
 <!--
@@ -55,10 +55,6 @@ Custom property                             | Description                       
 <dom-module id="asq-option-presenter">
 
   <style is="custom-style">
-    .layout-horizontal {
-      @apply(--layout-horizontal);
-      @apply(--layout-center);
-    }
 
     paper-progress {
       width: 100%;
@@ -80,6 +76,10 @@ Custom property                             | Description                       
       --paper-progress-transition-delay: var(--asq-option-presenter-progress-transition-delay, 0s);
     }
 
+    .hidden{
+      display: none;
+    }
+
 
 
   </style>
@@ -87,7 +87,7 @@ Custom property                             | Description                       
   <template>
 
     <div id="label"><content></content></div>
-    <div class="layout-horizontal">
+    <div class$="{{_computeStatsClass(displayProgress)}}">
       <paper-progress id="progress" value="[[progressValue]]" max="[[progressMax]]"></paper-progress>
       <div>[[progressValue]]</div>
     </div>
@@ -102,7 +102,7 @@ Custom property                             | Description                       
       is: 'asq-option-presenter',
 
       behaviors: [
-        Polymer.PaperInkyFocusBehavior,
+        // Polymer.PaperInkyFocusBehavior,
         Polymer.IronCheckedElementBehavior,
         ASQ.asqElementBehavior
       ],
@@ -173,6 +173,16 @@ Custom property                             | Description                       
           value: 100,
           notify: true,
           reflectToAttribute: true
+        },
+
+        /**
+        * Whether to display progress or not.
+        * @type {Object}
+        */
+        displayProgress: {
+          type: Boolean,
+          value: false,
+          notify: true 
         }
       },
 
@@ -223,6 +233,10 @@ Custom property                             | Description                       
 
       _computeCheckmarkClass: function(checked) {
         return checked ? '' : 'hidden';
+      },
+
+      _computeStatsClass: function(displayProgress){
+        return !!displayProgress ? "layout horizontal" : "hidden";
       }
 
     })
