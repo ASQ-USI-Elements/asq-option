@@ -96,7 +96,7 @@ Custom property                             | Description                       
       <div id="radioContainer">
         <div id="offRadio"></div>
         <div id="onRadio"></div>
-        <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple>
+        <!-- <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple> -->
       </div>
     </template>
 
@@ -121,7 +121,7 @@ Custom property                             | Description                       
       is: 'asq-option-viewer',
 
       behaviors: [
-        // Polymer.PaperInkyFocusBehavior,
+        Polymer.PaperInkyFocusBehavior,
         Polymer.IronCheckedElementBehavior,
         ASQ.asqElementBehavior
       ],
