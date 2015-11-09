@@ -13,7 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "polymer": "Polymer/Polymer#~1.0.8",
-    "asq-base": "ASQ-USI-Elements/asq-base#feat-polymer-1",
+    "asq-base": "ASQ-USI-Elements/asq-base#master",
     "iron-checked-element-behavior": "PolymerElements/iron-checked-element-behavior#^1.0.0",
     "paper-behaviors": "PolymerElements/paper-behaviors#^1.0.0",
     "paper-ripple": "PolymerElements/paper-ripple#^1.0.0",
