@@ -15,6 +15,10 @@
       margin-bottom: 1em;
     }
 
+    body div {
+      margin-left: 100px;
+    }
+
     asq-option.blue {
       --asq-option-presenter-progress-active-color: var(--paper-light-blue-500);
     }
@@ -26,7 +30,7 @@
     asq-option {
       --asq-option-viewer-unchecked-ink-color: #FF1744;
       --asq-option-viewer-checked-ink-color: #2E7D32;
-      --asq-option-viewer-checked-color: #FF1744;
+      --asq-option-viewer-checked-color: black;
       --asq-option-viewer-unchecked-color: green;
       --asq-option-viewer-unchecked-background-color: white;
       --asq-option-viewer-checkmark-color: white;
@@ -38,22 +42,28 @@
     }
   </style>
 
+    
+
 </head>
 <body unresolved>
 
+  <div>
+    <asq-option multi name="o0">A checkbox option for viewer</asq-option>
+    <asq-option multi name="o1" checked>Another checkbox option.</asq-option>
+    <asq-option multi name="o2" checked disabled>A disabled checkbox option</asq-option>
 
-  <asq-option multi name="o0">A checkbox option for viewer</asq-option>
-  <asq-option multi name="o1" checked>Another checkbox option.</asq-option>
-  <asq-option multi name="o2" checked disabled>A disabled checkbox option</asq-option>
+    <asq-option name="o3" checked>A radio option</asq-option>
+    <asq-option name="o4" disabled>A diabled radio option</asq-option>
 
-  <asq-option name="o3" checked>A radio option</asq-option>
-  <asq-option name="o4" disabled>A diabled radio option</asq-option>
+    <asq-option class="blue" role="presenter" progress-value="5" progress-max="15">An option for presenter</asq-option>
+    <asq-option multi class="red" role="presenter" progress-value="10" progress-max="15">Another option for presenter</asq-option>
+  </div>
+  
 
-  <asq-option class="blue" role="presenter" progress-value="5" progress-max="15">An option for presenter</asq-option>
-  <asq-option multi class="red" role="presenter" progress-value="10" progress-max="15">Another option for presenter</asq-option>
+  
 
   <script>
-    var x = document.querySelectorAll('asq-option')[1];
+    var x = document.querySelectorAll('asq-option')[0];
     
 
 
