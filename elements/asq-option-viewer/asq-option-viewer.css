@@ -21,7 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   outline: none;
 }
 
-#radioContainer {
+#container {
   display: inline-block;
   position: relative;
   width: 16px;
@@ -122,7 +122,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   display: none;
 }
 
-#checkboxContainer {
+#container {
   display: inline-block;
   position: relative;
   width: 18px;
