@@ -4,7 +4,7 @@
 <link rel="import" href="../paper-styles/default-theme.html">
 <link rel="import" href="../paper-behaviors/paper-inky-focus-behavior.html">
 <link rel="import" href="../paper-progress/paper-progress.html">
-<link rel="import" href="../iron-checked-element-behavior/iron-checked-element-behavior.html">
+<!-- <link rel="import" href="../paper-behaviors/paper-checked-element-behavior.html"> -->
 
 
 
@@ -36,10 +36,10 @@ In presenter's view, it will show a progress bar instead.
       <asq-option-viewer 
         role="viewer" 
         uid="[[uid]]" 
-        multi="[[multi]]" 
-        disabled="[[disabled]]"
-        name="[[name]]"
-        checked$="[[checked]]">
+        multi="{{multi}}" 
+        disabled="{{disabled}}"
+        name="{{name}}"
+        checked$="{{checked}}">
         <content></content>
       </asq-option-viewer>
     </template>
@@ -50,11 +50,10 @@ In presenter's view, it will show a progress bar instead.
       <asq-option-presenter 
         role="presenter" 
         uid="[[uid]]" 
-        multi="[[multi]]" 
-        disabled="[[disabled]]"
-        progress-value="[[progressValue]]" 
-        progress-max="[[progressMax]]" 
-        name="[[name]]"
+        multi="{{multi}}" 
+        disabled="{{disable}}]"
+        progress-value="{{progressValue}}" 
+        progress-max="{{progressMax}}" 
         display-progress="[[displayProgress]]">
         <content></content>
       </asq-option-presenter>
@@ -70,8 +69,6 @@ In presenter's view, it will show a progress bar instead.
       is: 'asq-option',
 
       behaviors: [
-        Polymer.PaperInkyFocusBehavior,
-        Polymer.IronCheckedElementBehavior,
         ASQ.asqElementBehavior
       ],
 
@@ -116,6 +113,13 @@ In presenter's view, it will show a progress bar instead.
           type: Boolean,
           value: false,
           notify: true 
+        },
+
+        checked: {
+          type: Boolean,
+          value: false,
+          notify: true,
+          reflectToAttribute: true
         }
       },
 

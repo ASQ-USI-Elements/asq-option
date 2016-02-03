@@ -2,12 +2,12 @@
 <link rel="import" href="../../../asq-base/asq-base.html">
 <link rel="import" href="../../../paper-ripple/paper-ripple.html">
 <link rel="import" href="../../../paper-styles/default-theme.html">
-<link rel="import" href="../../../paper-behaviors/paper-inky-focus-behavior.html">
 <link rel="import" href="../../../paper-progress/paper-progress.html">
-<link rel="import" href="../../../iron-checked-element-behavior/iron-checked-element-behavior.html">
+<link rel="import" href="../../../paper-behaviors/paper-checked-element-behavior.html">
 <link rel="import" href="../../../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../../paper-styles/color.html">
 
+<!-- <link rel="import" href="../../../paper-behaviors/paper-inky-focus-behavior.html"> -->
 <!--
 `asq-option-viewer` is use to show to the viewer. It adapts from 
 PolymerElements/paper-checkbox and PolymerElements/paper-radio-button.
@@ -87,29 +87,24 @@ Custom property                             | Description                       
 
   <link rel="import" type="css" href="asq-option-viewer.css">
 
-  <style is="custom-style">
-  </style>
 
   <template>
-
-    <template is="dom-if" if="{{!multi}}">
-      <div id="radioContainer">
+    <template is="dom-if" if="{{!multi}}" restamp>
+      <div id="container">
         <div id="offRadio"></div>
         <div id="onRadio"></div>
-        <!-- <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple> -->
       </div>
+      <div id="label"><content></content></div> 
     </template>
 
-    <template is="dom-if" if="{{multi}}">
-      <div id="checkboxContainer">
-        <!-- <paper-ripple id="ink" class="circle" center checked$="[[checked]]"></paper-ripple> -->
+    <template is="dom-if" if="{{multi}}" restamp>
+      <div id="container">
         <div id="checkbox" class$="[[_computeCheckboxClass(checked, invalid)]]">
           <div id="checkmark" class$="[[_computeCheckmarkClass(checked)]]"></div>
         </div>
       </div>
+      <div id="label"><content></content></div> 
     </template>
-
-    <div id="label"><content></content></div>
 
   </template>
 
@@ -121,8 +116,7 @@ Custom property                             | Description                       
       is: 'asq-option-viewer',
 
       behaviors: [
-        Polymer.PaperInkyFocusBehavior,
-        Polymer.IronCheckedElementBehavior,
+        Polymer.PaperCheckedElementBehavior,
         ASQ.asqElementBehavior
       ],
 
@@ -174,33 +168,9 @@ Custom property                             | Description                       
       attached: function() {
         this._isReady = true;
 
-        // Don't stomp over a user-set aria-label.
-        if (!this.getAttribute('aria-label')) {
-          this.updateAriaLabel();
-        }
-      },
-
-      /**
-       * Taken from PolymerElements/paper-checkbox.
-       * 
-       * Update the checkbox aria-label. This is a temporary workaround not
-       * being able to observe changes in <content>
-       * (see: https://github.com/Polymer/polymer/issues/1773)
-       *
-       * Call this if you manually change the contents of the checkbox
-       * and want the aria-label to match the new contents.
-       */
-      updateAriaLabel: function() {
-        this.setAttribute('aria-label', Polymer.dom(this).textContent.trim());
-      },
-
-      _buttonStateChanged: function() {
-        if (this.disabled) {
-          return;
-        }
-        if (this._isReady) {
-          this.checked = this.active;
-        }
+        this.async(function() {
+          this._createRipple();
+        });
       },
 
       _computeCheckboxClass: function(checked, invalid) {
@@ -216,6 +186,12 @@ Custom property                             | Description                       
 
       _computeCheckmarkClass: function(checked) {
         return checked ? '' : 'hidden';
+      },
+
+      _createRipple: function() {
+        if ( ! this.$$('#container') ) return;
+        this._rippleContainer = this.$$('#container');
+        return Polymer.PaperInkyFocusBehaviorImpl._createRipple.call(this);
       }
 
     })
