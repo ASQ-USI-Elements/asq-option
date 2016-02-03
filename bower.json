@@ -12,7 +12,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "polymer": "Polymer/Polymer#~1.2.1",
+    "polymer": "Polymer/Polymer#^1.2.1",
     "asq-base": "ASQ-USI-Elements/asq-base#master",
     "iron-checked-element-behavior": "PolymerElements/iron-checked-element-behavior#^1.0.2",
     "paper-behaviors": "PolymerElements/paper-behaviors#^1.0.9",
@@ -22,7 +22,7 @@
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.0.5"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#~1.0.9",
-    "web-component-tester": "Polymer/web-component-tester#~3.3.29"
+    "iron-component-page": "PolymerElements/iron-component-page#^1.1.4",
+    "web-component-tester": "Polymer/web-component-tester#^4.2.0"
   }
 }
