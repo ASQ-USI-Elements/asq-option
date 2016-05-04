@@ -17,6 +17,7 @@
   <!-- You use the document as a place to set up your fixtures. -->
   <asq-option id="m">This is a radio option</asq-option>
   <asq-option id="m2" checked>This is a radio option</asq-option>
+  <asq-option id="m3" checked name="test">This is a checkbox option</asq-option>
 
   <script>
     var m = document.querySelector('#m');
@@ -37,7 +38,10 @@
         assert.equal(m.role, 'viewer');
       });
 
-      
+      test('properly set name property ', function() {
+        assert.equal( m3.name , 'test');
+      });
+
     });
   </script>
 

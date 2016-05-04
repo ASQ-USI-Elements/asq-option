@@ -18,15 +18,19 @@
   <asq-option multi id="m">This is a checkbox option</asq-option>
   <asq-option multi id="m2" checked>This is a checkbox option</asq-option>
 
+  <asq-option multi id="m3" name="test">This is a checkbox option</asq-option>
+
+
   <script>
     var m = document.querySelector('#m');
     var m2 = document.querySelector('#m2');
+    var m3 = document.querySelector('#m3');
+
     suite('<asq-option>', function() {
       test('test default values', function() {
         assert.isTrue(m.multi);
         assert.isFalse(m.checked);
         assert.isFalse(m.disabled);
-
         assert.isTrue(m2.checked);
       });
 
@@ -37,7 +41,11 @@
         assert.equal(m.role, 'viewer');
       });
 
-      
+      test('properly set name property ', function() {
+        assert.equal( m3.name , 'test');
+      });
+
+
     });
   </script>
 
