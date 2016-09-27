@@ -12,9 +12,9 @@
 <link rel="import" href="./elements/asq-option-presenter/asq-option-presenter.html">
 
 <!--
-`asq-option` represents a single option of `asq-multi-choice-q` question. 
+`asq-option` represents a single option of `asq-multi-choice-q` question.
 
-In viewer's view, `asq-option` can switch between radio button and checkbox according 
+In viewer's view, `asq-option` can switch between radio button and checkbox according
 to the value of `multi`.
 
 In presenter's view, it will show a progress bar instead.
@@ -33,27 +33,28 @@ In presenter's view, it will show a progress bar instead.
   <template>
 
     <template is="dom-if" if="{{hasRole(role, roles.VIEWER)}}" restamp>
-      <asq-option-viewer 
-        role="viewer" 
-        uid="[[uid]]" 
-        multi="{{multi}}" 
+      <asq-option-viewer
+        role="viewer"
+        uid="[[uid]]"
+        multi="{{multi}}"
         disabled="{{disabled}}"
-        name="{{name}}"
+        name$="{{name}}"
         checked$="{{checked}}">
         <content></content>
       </asq-option-viewer>
     </template>
 
-    
+
 
     <template is="dom-if" if="{{hasRole(role, roles.PRESENTER)}}" restamp>
-      <asq-option-presenter 
-        role="presenter" 
-        uid="[[uid]]" 
-        multi="{{multi}}" 
+      <asq-option-presenter
+        role="presenter"
+        uid="[[uid]]"
+        multi="{{multi}}"
+        name$="{{name}}"
         disabled="{{disable}}]"
-        progress-value="{{progressValue}}" 
-        progress-max="{{progressMax}}" 
+        progress-value="{{progressValue}}"
+        progress-max="{{progressMax}}"
         display-progress="[[displayProgress]]">
         <content></content>
       </asq-option-presenter>
@@ -61,7 +62,7 @@ In presenter's view, it will show a progress bar instead.
 
   </template>
 
-    
+
 
 
   <script>
@@ -112,12 +113,21 @@ In presenter's view, it will show a progress bar instead.
         displayProgress: {
           type: Boolean,
           value: false,
-          notify: true 
+          notify: true
         },
 
         checked: {
           type: Boolean,
           value: false,
+          notify: true,
+          reflectToAttribute: true
+        },
+
+        /**
+        *  @type {String}
+        */
+        name: {
+          type : String,
           notify: true,
           reflectToAttribute: true
         }
