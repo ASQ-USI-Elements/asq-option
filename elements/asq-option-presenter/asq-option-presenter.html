@@ -4,6 +4,7 @@
 <link rel="import" href="../../../paper-behaviors/paper-inky-focus-behavior.html">
 <link rel="import" href="../../../paper-progress/paper-progress.html">
 <link rel="import" href="../../../paper-behaviors/paper-checked-element-behavior.html">
+<link rel="import" href="../../../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../../../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../../paper-styles/color.html">
 
@@ -52,49 +53,45 @@ Custom property                             | Description                       
 @homepage http://github.com/ASQ-USI-Elements/asq-option-presenter
 -->
 <dom-module id="asq-option-presenter">
-
-  <style is="custom-style">
-
-    #progress{
-      width: 100%;
-      margin-right: 20px;
-
-      --paper-progress-container-color: var(--asq-option-presenter-progress-container-color, --google-grey-300);
-
-      --paper-progress-active-color: var(--asq-option-presenter-progress-active-color, --google-green-500);
-
-      --paper-progress-disabled-active-color: var(--asq-option-presenter-progress-disabled-active-color, --google-grey-500);
-
-
-      --paper-progress-height: var(--asq-option-presenter-progress-height, 4px);
-
-      --paper-progress-transition-duration: var(--asq-option-presenter-progress-transition-duration, 0.08s);
-
-      --paper-progress-transition-delay: var(--asq-option-presenter-progress-transition-delay, 0s);
-      @apply(--asq-option-progress);
-    }
-
-
-    #progress-wrapper{
-      position: relative;
-      @apply(--layout-horizontal);
-      @apply(--asq-option-progress-wrapper);
-    }
-
-    #progress-num{
-      position: absolute;
-      top: -0.5em;
-      right: 0;
-      @apply(--asq-option-progress-number);
-    }
-
-    .hidden{
-      display: none;
-    }
-
-  </style>
-
   <template>
+
+    <style include="iron-flex iron-positioning">
+
+      #progress{
+        width: 100%;
+        margin-right: 20px;
+
+        --paper-progress-container-color: var(--asq-option-presenter-progress-container-color, --google-grey-300);
+
+        --paper-progress-active-color: var(--asq-option-presenter-progress-active-color, --google-green-500);
+
+        --paper-progress-disabled-active-color: var(--asq-option-presenter-progress-disabled-active-color, --google-grey-500);
+
+
+        --paper-progress-height: var(--asq-option-presenter-progress-height, 4px);
+
+        --paper-progress-transition-duration: var(--asq-option-presenter-progress-transition-duration, 0.08s);
+
+        --paper-progress-transition-delay: var(--asq-option-presenter-progress-transition-delay, 0s);
+        @apply(--asq-option-progress);
+      }
+
+
+      #progress-wrapper{
+        position: relative;
+        @apply(--layout-horizontal);
+        @apply(--asq-option-progress-wrapper);
+      }
+
+      #progress-num{
+        position: absolute;
+        top: -0.5em;
+        right: 0;
+        @apply(--asq-option-progress-number);
+      }
+
+    </style>
+
 
     <div id="label"><content></content></div>
     <div id="progress-wrapper" hidden$="{{!displayProgress}}">
