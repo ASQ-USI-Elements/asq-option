@@ -7,7 +7,7 @@
     "Zhenfei Nie <youyis2fox@gmail.com>",
     "Gustavo Graziani <gustavo.graz@outlook.com>"
   ],
-  "description": "ASQ option element with optional text input for other options. To be used with asq-multi-choice-q question elements.",
+  "description": "ASQ option element with optional text input when the option is configured as an 'other' option. To be used with asq-multi-choice-q question elements.",
   "keywords": [
     "ASQ"
   ],

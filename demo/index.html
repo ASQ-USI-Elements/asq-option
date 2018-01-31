@@ -47,17 +47,23 @@
 <body unresolved>
 
 <div>
-    <asq-option multi name="other" is-other other-required>'Other' checkbox option with input field required</asq-option>
-
-    <asq-option multi name="other2" is-other>'Other' checkbox option with input field not required</asq-option>
-
     <asq-option multi name="o0">A checkbox option for viewer</asq-option>
-    <asq-option multi name="o1" checked>Another checkbox option.</asq-option>
-    <asq-option multi name="o2" checked disabled>A disabled checkbox option</asq-option>
+    <asq-option multi name="o1" checked>Another checkbox option for viewer</asq-option>
+    <asq-option multi name="o2" checked disabled>A disabled checkbox option for viewer</asq-option>
 
-    <asq-option name="o3" checked>A radio option</asq-option>
-    <asq-option name="other3" is-other other-required>'Other' radio option with input field</asq-option>
-    <asq-option name="o4" disabled>A disabled radio option</asq-option>
+    <asq-option multi name="other1" is-other other-required>'Other' checkbox option for viewer with input field required</asq-option>
+    <asq-option multi name="other2" is-other>'Other' checkbox option for viewer with input field not required</asq-option>
+    <asq-option multi name="other3" is-other checked disabled>A disabled 'Other' checkbox option for viewer</asq-option>
+
+    <asq-option name="o3">A radio option</asq-option>
+    <asq-option name="o3" checked>A checked radio option</asq-option>
+    <asq-option name="o4" checked disabled>A disabled radio option</asq-option>
+
+    <asq-option name="other4" is-other other-required>'Other' radio option with input field required</asq-option>
+    <asq-option name="other5" is-other other-required>'Other' radio option with input field not required</asq-option>
+    <asq-option name="other6" is-other checked disabled>A disabled 'Other' radio option with input field not required</asq-option>
+
+
 
     <asq-option class="blue" role="presenter" progress-value="5" progress-max="15">An option for presenter</asq-option>
     <asq-option multi class="red" role="presenter" progress-value="10" progress-max="15" display-progress>Another option for presenter</asq-option>

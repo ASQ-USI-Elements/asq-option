@@ -134,7 +134,7 @@ Custom property                             | Description                       
       <content></content>
       <template is="dom-if" if="{{displayProgress}}" restamp>
         <template is="dom-if" if="{{isOther}}" restamp>
-          <paper-icon-button id="opt-btn" icon="{{_computeClass(showOptions)}}"></paper-icon-button>
+          <paper-icon-button id="opt-btn" icon="{{_computeClass(showOptions)}}" on-click="_onClicked"></paper-icon-button>
         </template>
       </template>
     </div>
@@ -172,9 +172,7 @@ Custom property                             | Description                       
         ASQ.asqElementBehavior
       ],
 
-      listeners: {
-        'click' : '_onBtnClicked'
-      },
+      listeners: {},
 
       hostAttributes: {
         'aria-checked': false,
@@ -294,10 +292,8 @@ Custom property                             | Description                       
         return text.trim() || 'NO-TEXT';
       },
 
-      _onBtnClicked: function (e) {
-        if (this._containsElement(e.path,'PAPER-ICON-BUTTON')){
-          this.showOptions = !this.showOptions
-        }
+      _onClicked: function (e) {
+        this.showOptions = !this.showOptions
       },
 
       _containsElement: function(elements, el){

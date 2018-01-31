@@ -42,7 +42,7 @@ In presenter's view, it will show:
         multi="{{multi}}"
         disabled="{{disabled}}"
         name$="{{name}}"
-        checked$="{{checked}}">
+        checked="{{checked}}">
         <content></content>
       </asq-option-viewer>
 
@@ -123,13 +123,12 @@ In presenter's view, it will show:
         },
 
         /**
-         * contains all 'other' items
-         * @type {Object}
-         * {
-              uid: " ",
-              elements: 2,
-              data : [ { text:"one", num: 2 }, { text:"two", num: 1}]
-            }
+         * contains all submissions grouped in 'clusters' and the number of times submitted
+         *
+          example:
+
+            [ { text:"one", num: 2 }, { text:"two", num: 1} ]
+
          */
 
         otherData: {
@@ -233,7 +232,7 @@ In presenter's view, it will show:
     }
 
     /**
-     *  Set invalid to true when user leave field blank (and required is true)
+     *  Set invalid to true when user leaves field blank (and required is true)
      */
     function onFocusOut(el) {
       if (el.required && (!el.value || !el.value.trim()))
