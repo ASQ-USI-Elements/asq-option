@@ -8,17 +8,18 @@
 <link rel="import" href="../../../paper-styles/color.html">
 <link rel="import" href="./asq-option-viewer-styles.html">
 
-<!-- <link rel="import" href="../../../paper-behaviors/paper-inky-focus-behavior.html"> -->
 <!--
-`asq-option-viewer` is use to show to the viewer. It adapts from 
-PolymerElements/paper-checkbox and PolymerElements/paper-radio-button.
+`asq-option-viewer` is use to show to the viewer. It adapts from
+PolymerElements/paper-checkbox and PolymerElements/paper-radio-button depending.
+
+
+
 
 
 ##### Examples
 
     <asq-option role="viewer" multi>A checkbox option</asq-option>
     <asq-option role="viewer" disabled>A disabled radio option</asq-option>
-
 
 ### Styling the checkbox or radio button in viewer's view:
 
@@ -70,7 +71,7 @@ Custom property                             | Description                       
 --asq-option-viewer-checked-color:                 | The color when checked                               | --default-primary-color
 --asq-option-viewer-unchecked-color:               | The color when unchecked                             | --primary-text-color
 --asq-option-viewer-unchecked-background-color:    | The background color when unchecked                  | transparent
---asq-option-viewer-checked-ink-color:             | The color of ink when checked                        | --default-primary-color  
+--asq-option-viewer-checked-ink-color:             | The color of ink when checked                        | --default-primary-color
 --asq-option-viewer-unchecked-ink-color:           | The color of ink when unchecked:                     | --primary-text-color
 --asq-option-viewer-checkmark-color:               | The color of checked mark of *checkbox* when checked | white
 --asq-option-viewer-disabled-color:                | The color when disabled                              | --primary-text-color
@@ -81,13 +82,12 @@ Custom property                             | Description                       
 @element asq-option-viewer
 @demo demo/index.html
 @group ASQ Elements
-@blurb Element acting as options in multichoice questions.
+@blurb Element acting as option with `other` text input in multichoice questions.
 @homepage http://github.com/ASQ-USI-Elements/asq-option
 -->
 <dom-module id="asq-option-viewer">
 
   <style include="asq-option-viewer-styles"></style>
-
 
   <template>
     <template is="dom-if" if="{{!multi}}" restamp>
@@ -95,7 +95,9 @@ Custom property                             | Description                       
         <div id="offRadio"></div>
         <div id="onRadio"></div>
       </div>
-      <div id="label"><content></content></div> 
+      <div id="label">
+        <content></content>
+      </div>
     </template>
 
     <template is="dom-if" if="{{multi}}" restamp>
@@ -104,13 +106,12 @@ Custom property                             | Description                       
           <div id="checkmark" class$="[[_computeCheckmarkClass(checked)]]"></div>
         </div>
       </div>
-      <div id="label"><content></content></div> 
+      <div id="label">
+        <content></content>
+      </div>
     </template>
 
   </template>
-
-    
-
 
   <script>
     Polymer({
@@ -126,11 +127,11 @@ Custom property                             | Description                       
         tabindex: 0
       },
 
-      ready: function() {
+      ready: function () {
         this.listen(this, 'checked-changed', '_onCheckedChanged');
       },
 
-      _onCheckedChanged: function(event) {
+      _onCheckedChanged: function (event) {
         event.preventDefault();
         this.fire('asq-option-change', {
           is: this.is,
@@ -139,8 +140,22 @@ Custom property                             | Description                       
         });
       },
 
-      properties: {
+      /**
+       * Override from Polymer.PaperCheckedElementBehavior
+       * Prevent radio button to be unchecked
+       */
+      _buttonStateChanged: function () {
+        Polymer.PaperRippleBehavior._buttonStateChanged.call(this);
+        if (this.disabled) {
+          return;
+        }
+        if (this.isAttached) {
+          if ((this.checked !== true && this.active) || this.multi)
+            this.checked = this.active;
+        }
+      },
 
+      properties: {
 
         /**
          * Decide the mode, single or multi.
@@ -152,7 +167,6 @@ Custom property                             | Description                       
           reflectToAttribute: true
         },
 
-
         /**
          * Fired when the checked state changes.
          *
@@ -161,20 +175,18 @@ Custom property                             | Description                       
 
         ariaActiveAttribute: {
           value: 'aria-checked'
-        }    
+        }
       },
 
-
-
-      attached: function() {
+      attached: function () {
         this._isReady = true;
 
-        this.async(function() {
+        this.async(function () {
           this._createRipple();
         });
       },
 
-      _computeCheckboxClass: function(checked, invalid) {
+      _computeCheckboxClass: function (checked, invalid) {
         var className = '';
         if (checked) {
           className += 'checked ';
@@ -185,17 +197,17 @@ Custom property                             | Description                       
         return className;
       },
 
-      _computeCheckmarkClass: function(checked) {
+      _computeCheckmarkClass: function (checked) {
         return checked ? '' : 'hidden';
       },
 
-      _createRipple: function() {
-        if ( ! this.$$('#container') ) return;
+      _createRipple: function () {
+        if (!this.$$('#container')) return;
         this._rippleContainer = this.$$('#container');
         return Polymer.PaperInkyFocusBehaviorImpl._createRipple.call(this);
       }
 
-    })
+    });
   </script>
 
 </dom-module>
