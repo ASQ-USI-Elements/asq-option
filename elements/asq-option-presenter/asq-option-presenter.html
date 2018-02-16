@@ -78,7 +78,7 @@ Custom property                             | Description                       
 
       #progress {
         width: 100%;
-        margin-right: 20px;
+        margin-right: 0.1em;
 
         --paper-progress-container-color: var(--asq-option-presenter-progress-container-color, --google-grey-300);
 
@@ -97,13 +97,11 @@ Custom property                             | Description                       
       #progress-wrapper {
         position: relative;
         @apply(--layout-horizontal);
+        @apply(--layout-center);
         @apply(--asq-option-progress-wrapper);
       }
 
       #progress-num {
-        position: absolute;
-        top: -0.5em;
-        right: 0;
         @apply(--asq-option-progress-number);
       }
 
